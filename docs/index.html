@@ -125,7 +125,7 @@ button.playing {
   <div class="app">
     <div class="title">write what stays</div>
 
-   <textarea id="note">
+  <textarea id="note" readonly>
 Hey Aradhya, 
 I am sorry for everything i did to dissapoint u and i am even forgiving you for everything..Cuz this is the most likely
 the last message i am sending u for a while..
@@ -141,23 +141,35 @@ for i am a real terrible(Am playing the victim card)😄.
 2nd Feburary 2026--> Akshansh Shukla signing off(Tall ahh handsome The nice smelling grandpa)
 
 DONT THINK I WILL FORGET **ABOUT YOU**...
-Silent Crawl
+I CODED THIS MYSELF IT TOOK ME 40 MINUTES JUST TO CODE....ICSE TAUGHT ME THIS 4 YEARS AGO..
 Well You can always reach me if you want some real help. I am only one call away..
 
 Bye.
+</textarea>
+
      
 </textarea>
 
     <button onclick="toggleMusic(event)">Play</button>
 
-    <audio id="music" loop>
-      <source src="about-you-x-guilty-as-sin.mp3" type="audio/mpeg">
-    </audio>
+   <audio id="music">
+  <source src="about-you-x-guilty-as-sin.mp3" type="audio/mpeg">
+</audio>
+
   </div>
 
   <script>
-    const music = document.getElementById("music");
-    const note = document.getElementById("note");
+  const music = document.getElementById("music");
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+    } else {
+      music.pause();
+    }
+  }
+</script>
+
 
     const defaultText = `Hey Aradhya, 
 I am sorry for everything i did to dissapoint u and i am even forgiving you for everything..Cuz this is the most likely
