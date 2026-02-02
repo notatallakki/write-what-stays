@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>write.</title>
+
+  <!-- Cinematic serif font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    textarea:focus {
+      box-shadow: 0 0 0 1px rgba(177,42,58,0.6),
+                  0 10px 35px rgba(177,42,58,0.25);
+      transition: box-shadow 0.4s ease;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 60%);
+      animation: breathe 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    body {
+      background: radial-gradient(circle at top, #141414, #0b0b0b 60%);
+      color: #eaeaea;
+      font-family: "Cormorant Garamond", serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .app {
+      position: relative;
+      z-index: 2;
+      width: 90%;
+      max-width: 520px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeIn 1.2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .title {
+      opacity: 0.55;
+      margin-bottom: 16px;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: lowercase;
+      transition: opacity 1.2s ease;
+    }
+
+    .app.dimmed .title,
+    .app.dimmed button {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    textarea {
+      width: 100%;
+      height: 270px;
+      background: rgba(26,26,26,0.85);
+      color: #f5f5f5;
+      border: 1px solid rgba(255,255,255,0.05);
+      padding: 22px;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 17px;
+      line-height: 1.9;
+      resize: none;
+      border-radius: 16px;
+      outline: none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    button {
+      margin-top: 18px;
+      padding: 10px 26px;
+      background: linear-gradient(135deg, #8b1d2c, #b12a3a);
+      border: none;
+      border-radius: 999px;
+      color: white;
+      font-size: 14px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(177,42,58,0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 1.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(177,42,58,0.55);
+    }
+
+    button.playing {
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(177,42,58,0.5); }
+      70% { box-shadow: 0 0 0 14px rgba(177,42,58,0); }
+      100% { box-shadow: 0 0 0 0 rgba(177,42,58,0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <div class="title">write what stays</div>
+
+    <textarea id="note" readonly></textarea>
+
+    <button onclick="toggleMusic(event)">Play</button>
+
+    <audio id="music" loop>
+      <source src="about-you-x-guilty-as-sin.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    const music = document.getElementById("music");
+    const note = document.getElementById("note");
+    const app = document.querySelector(".app");
+
+    const defaultText = `Hey Aradhya, 
+I am sorry for everything i did to dissapoint u and i am even forgiving you for everything..Cuz this is the most likely
+the last message i am sending u for a while..
+
+Please Dont try to communicate me frm now on. I will myself reach u when the time comes.Please trust me that u were one of
+The best friend made in a while and u r a great person (maybe the best i met in a while).Please trust me on this decision i 
+am taking.Lets just try to give some space to each other for a while without any confusions and misunderstandings.It was a
+great experience fighting,flirting,playing,throwing stupid jokes ang getting compliments from you, I will for sure miss a lot
+I still no matter how much i fight with you i still loved you..I know i will be reminded about ur innocence no matter how far 
+i still stay.As i said "Am the best temporary person you will ever meet" thats what i meant.Well You dont hv to forgive me stil
+for i am a real terrible(Am playing the victim card)😄.
+
+2nd Feburary 2026--> Akshansh Shukla signing off(Tall ahh handsome The nice smelling grandpa)
+
+DONT THINK I WILL FORGET **ABOUT YOU**...
+(Did this code in a hurry*ICSE TAUGHT ME THIS 4 YEARS AGO IKNOW U DONT LIKE IT)
+Well You can always reach me if you want some real help. I am only one call away..
+
+Bye.`;
+
+    if (!localStorage.getItem("savedMessage")) {
+      localStorage.setItem("savedMessage", defaultText);
+    }
+    note.value = localStorage.getItem("savedMessage");
+
+    let fadeInterval;
+
+    function fadeIn() {
+      clearInterval(fadeInterval);
+      music.volume = 0;
+      music.play();
+      fadeInterval = setInterval(() => {
+        if (music.volume < 0.95) {
+          music.volume += 0.05;
+        } else {
+          clearInterval(fadeInterval);
+        }
+      }, 100);
+    }
+
+    function fadeOut() {
+      clearInterval(fadeInterval);
+      fadeInterval = setInterval(() => {
+        if (music.volume > 0.05) {
+          music.volume -= 0.05;
+        } else {
+          music.pause();
+          clearInterval(fadeInterval);
+        }
+      }, 100);
+    }
+
+    function toggleMusic(e) {
+      if (music.paused) {
+        fadeIn();
+        e.target.innerText = "Pause";
+        e.target.classList.add("playing");
+
+        setTimeout(() => {
+          app.classList.add("dimmed");
+        }, 1200);
+      } else {
+        fadeOut();
+        e.target.innerText = "Play";
+        e.target.classList.remove("playing");
+        app.classList.remove("dimmed");
+      }
+    }
+  </script>
+</body>
+</html>
