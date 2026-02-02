@@ -145,25 +145,29 @@ Bye.
     </audio>
   </div>
 
-  <script>
-    const music = document.getElementById("music");
-    const button = document.querySelector("button");
-    const app = document.querySelector(".app");
+ <script>
+  const music = document.getElementById("music");
+  const button = document.querySelector("button");
+  const app = document.querySelector(".app");
 
-    function toggleMusic() {
-      if (music.paused) {
-        music.play().catch(err => console.log(err));
-        button.innerText = "Pause";
-        button.classList.add("playing");
+  function toggleMusic() {
+    if (music.paused) {
+      music.play().catch(err => console.log(err));
+      button.innerText = "Pause";
+      button.classList.add("playing");
 
-        setTimeout(() => {
-          app.classList.add("dimmed");
-        }, 1200);
-      } else {
-        music.pause();
-        button.innerText = "Play";
-        button.classList.remove("playing");
-        app.classList.remove("dimmed");
+      setTimeout(() => {
+        app.classList.add("dimmed");
+      }, 1200);
+    } else {
+      music.pause();
+      button.innerText = "Play";
+      button.classList.remove("playing");
+      app.classList.remove("dimmed");
+    }
+  }
+</script>
+
       }
     }
   </script>
